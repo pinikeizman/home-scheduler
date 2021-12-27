@@ -1,0 +1,33 @@
+{
+  "name": "home-scheduler",
+  "version": "1.0.0",
+  "description": "A useful set of scheduled jobs to use for your day to day life.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": " tsnd --respawn index.ts -P tsconfig.json",
+    "start": "ts-node index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pinikeizman/home-scheduler.git"
+  },
+  "author": "pinhas keizman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pinikeizman/home-scheduler/issues"
+  },
+  "homepage": "https://github.com/pinikeizman/home-scheduler#readme",
+  "dependencies": {
+    "axios": "^0.24.0",
+    "dayjs": "^1.10.7",
+    "dotenv": "^10.0.0",
+    "node-cron": "^3.0.0",
+    "ts-node": "^10.4.0",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "@types/node-cron": "^3.0.0",
+    "ts-node-dev": "^1.1.8"
+  }
+}
