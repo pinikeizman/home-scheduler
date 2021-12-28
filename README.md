@@ -6,6 +6,8 @@ A useful set of scheduled jobs to use for your day to day life.
 ## 10 bis period expiration notification
 Notify when period is about to expire and suggest to by SufferSal credits.
 
+![](docs/10bis-slack-notif.png))
+
 # development
 
 - Run compiler in watch mode using `npm run dev` 
@@ -20,5 +22,5 @@ docker push pinhask/home-schedular
 ```
 - Run in docker everywhere
 ```
-docker run -it pini-test -e TENBIS_USER_TOKEN=<token> -e SLACK_WEBHOOK=<your_hook_address>
+sudo docker run -dit --platform linux/arm/v7 -e TENBIS_USER_TOKEN=<token> -e SLACK_WEBHOOK=<your_hook_address> pinhask/home-schedular
 ```

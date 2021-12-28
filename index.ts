@@ -1,5 +1,5 @@
 import config, { appName } from "./src/config";
-import { createJob } from "./src/10bis";
+import { createJob, use10BisBeforeExpiration } from "./src/10bis";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import customParseFormat from "dayjs/plugin/customParseFormat";

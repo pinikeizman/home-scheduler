@@ -1,10 +1,10 @@
 import config from "../config";
 import axios from "axios";
-import { sendSlackMessage } from "../slack";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { Context, Job } from "src/schedular";
+import logger from "../logger";
 
 dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat);
@@ -23,7 +23,8 @@ export const use10BisBeforeExpiration = async ({ notify }: Context) => {
   const userTransaction = await getUserTransaction();
   const endDateStr = userTransaction.Data.companyReportRange.endDateStr;
   const expirationDate = dayjs(endDateStr, "DD.MM.YY");
-  const tomorrow = new Date(Date.now() + 1000 * 60 * 60 * 24);
+  const tomorrow = dayjs().add(1, 'day')
+
   const data = {
     period: userTransaction.Data.companyReportRange,
     balances: userTransaction.Data.moneycards.map((c) => c.balance),
@@ -47,8 +48,8 @@ export const use10BisBeforeExpiration = async ({ notify }: Context) => {
   ];
   const msgText = "10Bis utilization status";
 
-  if (expirationDate.toDate() < tomorrow) {
-    console.log("Initiating utilization sequence");
+  if (expirationDate.isBefore(tomorrow)) {
+    logger.info("Initiating utilization sequence");
     notify({
       text: msgText,
       blocks: [
@@ -63,7 +64,7 @@ export const use10BisBeforeExpiration = async ({ notify }: Context) => {
       ],
     });
   } else {
-    console.log("There's still time");
+    logger.info("There's still time");
     notify({
       text: msgText,
       blocks: [
