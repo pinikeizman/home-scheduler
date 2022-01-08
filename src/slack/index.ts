@@ -16,3 +16,14 @@ export const sendSlackMessage: (
       }
     )
     .then((res) => res.data);
+
+export const createMDSection: (data: any) => {
+  type: "section";
+  text: { type: "mrkdwn"; text: string };
+} = (data) => ({
+  type: "section",
+  text: {
+    type: "mrkdwn",
+    text: `\`\`\`${JSON.stringify(data, null, 2)}\`\`\``,
+  },
+});

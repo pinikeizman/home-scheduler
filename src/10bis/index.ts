@@ -3,8 +3,8 @@ import axios from "axios";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import { Context, Job } from "src/schedular";
 import logger from "../logger";
+import { AddJob, Context } from "../scheduler";
 
 dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat);
@@ -23,7 +23,7 @@ export const use10BisBeforeExpiration = async ({ notify }: Context) => {
   const userTransaction = await getUserTransaction();
   const endDateStr = userTransaction.Data.companyReportRange.endDateStr;
   const expirationDate = dayjs(endDateStr, "DD.MM.YY");
-  const tomorrow = dayjs().add(1, 'day')
+  const tomorrow = dayjs().add(1, "day");
 
   const data = {
     period: userTransaction.Data.companyReportRange,
@@ -34,7 +34,7 @@ export const use10BisBeforeExpiration = async ({ notify }: Context) => {
       type: "header",
       text: {
         type: "plain_text",
-        text: "10Bis utilization status",
+        text: "10Bis utilization report",
         emoji: true,
       },
     },
@@ -111,12 +111,12 @@ export type GetUserTransactionResponse = {
     }[];
   };
 };
-
-export const createJob = (): Job => ({
+export const createJob = (): AddJob => ({
   name: "10Bis Period Reminder",
+  expression: "0 12 * * *",
   description:
     "Will remined you when the period is about to end and will buy sufersal credits with the remainings",
-  run: use10BisBeforeExpiration,
+  cb: use10BisBeforeExpiration,
 });
 
 export default {

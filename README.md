@@ -14,13 +14,13 @@ Notify when period is about to expire and suggest to by SufferSal credits.
 - Develop your awosome schduled job
 - Build docker image
 ```
-docker build . -t pinhask/home-schedular:latest --no-cache --platform linux/arm/v7
+docker build . -t pinhask/home-scheduler:latest --no-cache --platform linux/arm/v7
 ```
 - Publish docker image
 ```
-docker push pinhask/home-schedular
+docker push pinhask/home-scheduler
 ```
 - Run in docker everywhere
 ```
-sudo docker run -dit --platform linux/arm/v7 -e TENBIS_USER_TOKEN=<token> -e SLACK_WEBHOOK=<your_hook_address> pinhask/home-schedular
+sudo docker run -dit --platform linux/arm/v7 -e TENBIS_USER_TOKEN=<token> -e SLACK_WEBHOOK=<your_hook_address> pinhask/home-scheduler
 ```
