@@ -19,7 +19,9 @@
   },
   "homepage": "https://github.com/pinikeizman/home-scheduler#readme",
   "dependencies": {
+    "@slack/bolt": "^3.8.1",
     "axios": "^0.24.0",
+    "cypress": "^9.2.0",
     "dayjs": "^1.10.7",
     "dotenv": "^10.0.0",
     "node-schedule": "^2.1.0",

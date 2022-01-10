@@ -27,3 +27,16 @@ export const createMDSection: (data: any) => {
     text: `\`\`\`${JSON.stringify(data, null, 2)}\`\`\``,
   },
 });
+
+export const createPlainTextSection: (data: string) => {
+  type: "section";
+  text: { type: "plain_text"; text: string };
+} = (data) => ({
+  type: "section",
+  text: {
+    type: "plain_text",
+    text: data,
+    "emoji": true
+
+  },
+});
