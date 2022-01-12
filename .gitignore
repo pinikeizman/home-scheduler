@@ -3,3 +3,4 @@ node_modules/
 req-log
 build/
 typings/
+.vscode/

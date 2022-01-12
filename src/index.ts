@@ -9,10 +9,12 @@ import logger from "./logger";
 import {
   createMDSection,
   createPlainTextSection,
+  createSlackBolt,
   sendSlackMessage,
 } from "./slack";
 import os from "os";
-import { App } from "@slack/bolt";
+import { use10BisShortcut } from "./10bis/views";
+import { run10BisCypress } from "./10bis/order-sufersal-runner";
 
 dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat);
@@ -26,27 +28,13 @@ logger.info(`Starting ${appName} schduler application`, { env: config });
 scheduler.add(create10BisJob());
 scheduler.add(createHeartbeatJob());
 
-const app = new App({
-  token: process.env.SLACK_BOT_TOKEN,
-  signingSecret: process.env.SLACK_SIGNING_SECRET,
-  socketMode: true, // add this
-  appToken: process.env.SLACK_APP_TOKEN, // add this
-});
-
-app.message("homie", async ({ message, say }) => {
-  // say() sends a message to the channel where the event was triggered
-  logger.info(`Message recived`, message);
-  // @ts-ignore
-  await say(`Hey there <@${message.user}>!`);
-});
-
-(async () => {
-  // Start your app
-  await app.start();
-  logger.info(`㋡ Starting ${appName} Bolt application`);
-
-  sendSlackMessage(`㋡ Starting ${appName} Bolt application`, [
-    createPlainTextSection(`Starting ${appName} Bolt application`),
-    createMDSection({ os: process.platform, hostname: os.hostname() }),
-  ]);
-})();
+const app = createSlackBolt()
+  .then(use10BisShortcut)
+  .then(async (app) => {
+    await app.start();
+    logger.info(`㋡ Starting ${appName} Bolt application`);
+    sendSlackMessage(`㋡ Starting ${appName} Bolt application`, [
+      createPlainTextSection(`Starting ${appName} Bolt application`),
+    ]);
+    return app;
+  });

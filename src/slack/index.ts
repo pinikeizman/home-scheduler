@@ -1,5 +1,8 @@
-import config from "../config";
+import config, { appName } from "../config";
 import axios from "axios";
+import { App } from "@slack/bolt";
+import os from "os";
+import logger from "../logger";
 
 const slackWebhook = config.SLACK_WEBHOOK || "";
 
@@ -36,7 +39,23 @@ export const createPlainTextSection: (data: string) => {
   text: {
     type: "plain_text",
     text: data,
-    "emoji": true
-
+    emoji: true,
   },
 });
+
+export const createSlackBolt = async () => {
+  const app = new App({
+    token: process.env.SLACK_BOT_TOKEN,
+    signingSecret: process.env.SLACK_SIGNING_SECRET,
+    socketMode: true, // add this
+    appToken: process.env.SLACK_APP_TOKEN, // add this
+  });
+
+  app.message("homie", async ({ message, say, body }) => {
+    // say() sends a message to the channel where the event was triggered
+    logger.info(`Message recived`, message);
+    // @ts-ignore
+    await say(`Hey there <@${message.user}>!`);
+  });
+  return app;
+};

@@ -2,6 +2,10 @@ export type Config = {
   APP_NAME?: string;
   TENBIS_USER_TOKEN?: string;
   SLACK_WEBHOOK?: string;
+  SLACK_SIGNING_SECRET?: string;
+  SLACK_BOT_TOKEN?: string;
+  SLACK_APP_TOKEN?: string;
+  SLACK_NOTIFICATION_CHANNEL?: string;
 };
 
 const config: Config = {
