@@ -14,7 +14,7 @@ import {
 } from "./slack";
 import os from "os";
 import { use10BisShortcut } from "./10bis/views";
-import { run10BisCypress } from "./10bis/order-sufersal-runner";
+import { myfunc } from "./10bis/order-sufersal.playwrite";
 
 dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat);
@@ -36,5 +36,6 @@ const app = createSlackBolt()
     sendSlackMessage(`㋡ Starting ${appName} Bolt application`, [
       createPlainTextSection(`Starting ${appName} Bolt application`),
     ]);
+    
     return app;
   });

@@ -1,7 +1,9 @@
 import { App, BlockAction, SlackShortcut } from "@slack/bolt";
 import { ViewsOpenArguments, ViewsUpdateArguments } from "@slack/web-api";
+import { use10BisBeforeExpiration } from ".";
 import logger from "../logger";
-import { run10BisCypress } from "./order-sufersal-runner";
+import { myfunc } from "./order-sufersal.playwrite";
+// import { run10BisCypress } from "./order-sufersal-runner";
 
 export const createOrder10bisView: (
   shortcut: SlackShortcut
@@ -98,17 +100,32 @@ export const use10BisShortcut: (app: App) => App = (app: App) => {
     }
   );
 
+  app.shortcut(
+    "action.10bis.report",
+    async ({ shortcut, ack, body, logger, client }) => {
+      try {
+        await ack();
+        await use10BisBeforeExpiration({
+          notify: (props) =>
+            client.chat.postMessage({ channel: body.user.id, ...props }),
+        });
+      } catch (error) {
+        logger.error(error);
+      }
+    }
+  );
+
   app.action<BlockAction>(
     "action.10bis.buy.sufersal",
     async ({ ack, client, logger, body, payload, action }) => {
       try {
         await ack();
-        await client.views.update(
+        const a = await client.views.update(
           loadingView(body?.view?.id || "", body?.view?.hash || "")
         );
-        await run10BisCypress({ app, responedToChannel: body.user.id });
+        await myfunc(app, body.user.id);
         const result = await client.views.update(
-          successView(body?.view?.id || "", body?.view?.hash || "")
+          successView(a.view?.id || "", a?.view?.hash || "")
         );
         logger.info("res", { result });
       } catch (error) {

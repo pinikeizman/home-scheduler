@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import envs from "src/config";
+import envs from "../../src/config";
 
 // ***********************************************************
 // This example plugins/index.js can be used to load plugins

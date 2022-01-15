@@ -1,5 +1,5 @@
 {
   "integrationFolder": "src",
-  "testFiles": "**/**.spec.ts"
+  "testFiles": "**/**.cy.ts"
 
 }

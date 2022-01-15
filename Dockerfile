@@ -1,6 +1,6 @@
-FROM node:16
+FROM mcr.microsoft.com/playwright:focal
 WORKDIR /opt/home-scheduler
 COPY . .
-
-RUN ["npm", "install", "--verbose"]
-ENTRYPOINT [ "bash", "-c","npm start" ]
+RUN npm install
+RUN npx playwright install firefox
+ENTRYPOINT [ "bash", "-c", "npm start" ]

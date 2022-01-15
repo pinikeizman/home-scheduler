@@ -47,7 +47,7 @@ export const run10BisCypress = async ({
   app: App;
   responedToChannel?: string;
 }) => {
-  const test_path = path.join(__dirname, "order-sufersal.spec.ts");
+  const test_path = path.join(__dirname, "order-sufersal.cy.ts");
   const specs = await Bluebird.resolve([test_path]).then(sortByLastModified);
   const runResults = await Bluebird.mapSeries(specs, runOneSpec);
   runResults.forEach(async (runResult) => {

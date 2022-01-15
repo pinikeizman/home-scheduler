@@ -64,7 +64,6 @@ export const use10BisBeforeExpiration = async ({ notify }: Context) => {
       ],
     });
   } else {
-    logger.info("There's still time");
     notify({
       text: msgText,
       blocks: [
