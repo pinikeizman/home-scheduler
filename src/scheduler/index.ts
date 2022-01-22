@@ -21,7 +21,6 @@ export type Scheduler = {
 const context: Context = {
   notify: ({ text, blocks }) => sendSlackMessage(text, blocks),
 };
-
 export const scheduler: Scheduler = {
   add: ({ name, cb, expression, description }) => {
     const job = schedule.scheduleJob(expression, () => {

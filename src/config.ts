@@ -6,6 +6,7 @@ export type Config = {
   SLACK_BOT_TOKEN?: string;
   SLACK_APP_TOKEN?: string;
   SLACK_NOTIFICATION_CHANNEL?: string;
+  DB_FILE_PATH: string;
 };
 
 const config: Config = {

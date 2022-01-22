@@ -1,13 +1,15 @@
+import { App } from "@slack/bolt";
 import os from "os";
 import { AddJob } from "../scheduler";
 import { createMDSection } from "../slack";
 
-export const createJob = (): AddJob => ({
+export const createJob = (app: App, channel: string): AddJob => ({
   name: "Heartbeat",
   description: "Heartbeat to signal application is alive",
   expression: "0 */1 * * *",
-  cb: ({ notify }) =>
-    notify({
+  cb: () =>
+    app.client.chat.postMessage({
+      channel,
       text: "Heartbeat",
       blocks: [
         createMDSection({

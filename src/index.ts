@@ -1,5 +1,4 @@
 import config, { appName } from "./config";
-import { createJob as create10BisJob } from "./10bis";
 import { createJob as createHeartbeatJob } from "./heartbeat";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -14,7 +13,6 @@ import {
 } from "./slack";
 import os from "os";
 import { use10BisShortcut } from "./10bis/views";
-import { myfunc } from "./10bis/order-sufersal.playwrite";
 
 dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat);
@@ -25,8 +23,6 @@ sendSlackMessage(`⥁ Starting ${appName} schduler`, [
 ]);
 
 logger.info(`Starting ${appName} schduler application`, { env: config });
-scheduler.add(create10BisJob());
-scheduler.add(createHeartbeatJob());
 
 const app = createSlackBolt()
   .then(use10BisShortcut)
@@ -36,6 +32,18 @@ const app = createSlackBolt()
     sendSlackMessage(`㋡ Starting ${appName} Bolt application`, [
       createPlainTextSection(`Starting ${appName} Bolt application`),
     ]);
-    
+
+    scheduler.add(createHeartbeatJob(app, "U02S3G28H9Q"));
     return app;
   });
+
+process.on("SIGTERM", function () {
+  logger.info("Terminating application");
+  app.then((a) => a.stop()).finally(() => process.exit(0));
+});
+
+process.on("uncaughtException", (err) => {
+  logger.error("Uncaught Exception thrown to not ignore this", err);
+  sendSlackMessage("Uncaught Exception", [createMDSection({ err })]);
+  process.exit(1);
+});

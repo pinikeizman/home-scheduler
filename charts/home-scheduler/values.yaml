@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: pinhask/home-scheduler
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 secrets:
@@ -16,6 +16,8 @@ secrets:
     SlackBotToken:
     SlackAppToken:
     SlackNotificationChannel:
+config:
+  dbPath: /data
 
 
 imagePullSecrets: []

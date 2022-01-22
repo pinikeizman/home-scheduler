@@ -9,18 +9,20 @@ import { AddJob, Context } from "../scheduler";
 dayjs.extend(relativeTime);
 dayjs.extend(customParseFormat);
 
-const userToken = config.TENBIS_USER_TOKEN || "";
+export const getUserTransaction: (
+  userToken: string
+) => Promise<GetUserTransactionResponse> = async (userToken) =>
+  axios
+    .get("https://www.10bis.co.il/NextApi/UserTransactionsReport", {
+      headers: { "user-token": userToken },
+    })
+    .then((res) => res.data);
 
-export const getUserTransaction: () => Promise<GetUserTransactionResponse> =
-  async () =>
-    axios
-      .get("https://www.10bis.co.il/NextApi/UserTransactionsReport", {
-        headers: { "user-token": userToken },
-      })
-      .then((res) => res.data);
-
-export const use10BisBeforeExpiration = async ({ notify }: Context) => {
-  const userTransaction = await getUserTransaction();
+export const use10BisBeforeExpiration = async (
+  { notify }: Context,
+  userToken: string
+) => {
+  const userTransaction = await getUserTransaction(userToken);
   const endDateStr = userTransaction.Data.companyReportRange.endDateStr;
   const expirationDate = dayjs(endDateStr, "DD.MM.YY");
   const tomorrow = dayjs().add(1, "day");
@@ -110,12 +112,12 @@ export type GetUserTransactionResponse = {
     }[];
   };
 };
-export const createJob = (): AddJob => ({
+export const createJob = (userToken: string): AddJob => ({
   name: "10Bis Period Reminder",
   expression: "0 12 * * *",
   description:
     "Will remined you when the period is about to end and will buy sufersal credits with the remainings",
-  cb: use10BisBeforeExpiration,
+  cb: (ctx) => use10BisBeforeExpiration(ctx, userToken),
 });
 
 export default {

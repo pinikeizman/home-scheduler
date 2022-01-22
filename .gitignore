@@ -5,4 +5,5 @@ build/
 typings/
 .vscode/
 videos/
-**/*-local.yaml
+**/*-secrets.yaml
+db.json
