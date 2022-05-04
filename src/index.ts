@@ -1,5 +1,6 @@
 import config, { appName } from "./config";
 import { createJob as createHeartbeatJob } from "./heartbeat";
+import { createJob as createPassportJob, getAvailableSlots } from "./passport";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -34,6 +35,9 @@ const app = createSlackBolt()
     ]);
 
     scheduler.add(createHeartbeatJob(app, "U02S3G28H9Q"));
+    scheduler.add(createPassportJob(app, "C03E38125D1"));
+    getAvailableSlots(app, "C03E38125D1")
+   
     return app;
   });
 

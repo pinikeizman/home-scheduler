@@ -27,7 +27,7 @@ export const createMDSection: (data: any) => {
   type: "section",
   text: {
     type: "mrkdwn",
-    text: `\`\`\`${JSON.stringify(data, null, 2)}\`\`\``,
+    text: `\`\`\`${JSON.stringify(data, null, 2).substring(0, 2900)}\`\`\``,
   },
 });
 
