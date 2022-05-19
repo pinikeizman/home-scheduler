@@ -14,7 +14,7 @@ export const scheduleMyvisitAPI = async ({
   serviceId: number;
   serviceName: string;
   schedules: {
-    id: string;
+    id: string; 
     phone: string;
     condition?: (props: {
       date: Date;

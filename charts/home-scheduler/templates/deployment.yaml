@@ -21,6 +21,9 @@ spec:
         {{- include "home-scheduler.selectorLabels" . | nindent 8 }}
     spec:
       volumes:
+        - name: cm-single-file-volume
+          configMap:
+            name: cm-single-file
         - name: db-data
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-pvc
@@ -34,6 +37,9 @@ spec:
       containers:
         - name: {{ .Chart.Name }}
           volumeMounts:
+            - name: cm-single-file-volume
+              mountPath: /opt/home-scheduler/data.ts
+              subPath: data.ts
             - mountPath: "/data"
               name: db-data
           securityContext:

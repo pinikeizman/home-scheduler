@@ -35,9 +35,6 @@ const app = createSlackBolt()
     ]);
 
     scheduler.add(createHeartbeatJob(app, "U02S3G28H9Q"));
-    scheduler.add(createPassportJob(app, "C03E38125D1"));
-    getAvailableSlots(app, "C03E38125D1")
-   
     return app;
   });
 
